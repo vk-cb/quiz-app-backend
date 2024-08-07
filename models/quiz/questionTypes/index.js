@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const CategorySchema = new mongoose.Schema({
-    title : {type: String, required : true},
+const TypeSchema = new mongoose.Schema({
+    title : {type: String, enum:["Single choice", "Multiple choice"], required : true},
     admin : {type: mongoose.Schema.Types.ObjectId, ref: 'Admin'},
     isActive : {type: Boolean, default: true},
     createdDate : {type: Date, default: Date.now},
@@ -9,4 +9,4 @@ const CategorySchema = new mongoose.Schema({
     updatedBy : {type: mongoose.Schema.Types.ObjectId, ref: 'Admin'}
 })
 
-module.exports = mongoose.model('Category', CategorySchema, 'Category')
+module.exports = mongoose.model('type', TypeSchema, 'type')

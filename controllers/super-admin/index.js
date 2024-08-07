@@ -21,3 +21,7 @@ exports.SuperAdminSignin = async(req, res)=>{
     
 }
 }
+
+exports.approveAdmin = async(req, res)=>{
+    
+}

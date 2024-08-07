@@ -51,7 +51,7 @@ exports.adminLoginController = async (req, res)=>{
     };
    
 
-    const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+    const token = jwt.sign(payload, secret);
 
     return res.json({msg: "Admin logged in successfully", data : payload, token})
 } catch (error) {

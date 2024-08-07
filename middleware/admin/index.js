@@ -9,8 +9,13 @@ exports.adminmiddleware = async(req,res, next) =>{
     try {
         const decoded = jwt.verify(token,secret)
         req.admin = await Admin.findById(decoded.id)
-        if(!req.user){
+        
+        if(!req.admin){
            return res.status(401).json({msg: "Unauthorized entry"})
+        }
+        if(req.admin.role !== "admin"){
+            return res.status(401).json({msg: "You are not authorized to access this route"})    
+ 
         }
         next()
         
