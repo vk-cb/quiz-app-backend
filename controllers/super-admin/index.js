@@ -23,5 +23,14 @@ exports.SuperAdminSignin = async(req, res)=>{
 }
 
 exports.approveAdmin = async(req, res)=>{
+    const {id, status} = req.body;
+    try {
+        const admin = await SuperAdmin.findByIdAndUpdate(id, {isActive: status}, {new: true})
+        if(!admin) return res.status(404).json({msg: "Admin not found"})
+        return res.status(200).json({msg: "Admin status updated successfully", admin})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({msg: "Server Error"})
+    }
     
 }

@@ -1,6 +1,7 @@
 const Admin = require("../../models/auth/admin");
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const admin = require("../../models/auth/admin");
 const secret = process.env.JWT_SECRET
 
 exports.adminSignupController = async (req, res)=>{
@@ -15,7 +16,7 @@ exports.adminSignupController = async (req, res)=>{
         
         const payload = { id: newUser._id, name: newUser.name, email: newUser.email, wallet: newUser.wallet };
 
-       return res.send(200).json({msg: "Admin created successfully", data : payload})
+       return res.status(200).json({msg: "Admin created successfully", data : payload})
     } catch (error) {
        return res.status(500).json({msg : "Server Error", error})
     }
@@ -57,4 +58,9 @@ exports.adminLoginController = async (req, res)=>{
 } catch (error) {
       return res.status(500).json({msg : "Server Error", error})  
 }
+}
+
+exports.pendingAdmin = async(req, res)=>{
+   const admins = await Admin.find({isActive: false})
+   return res.status(200).json({msg: "All Pending Admins", data : admins})
 }
