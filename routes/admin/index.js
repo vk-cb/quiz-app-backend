@@ -1,22 +1,28 @@
 const express = require('express')
 const { adminSignupController, adminLoginController} = require('../../controllers/admin/adminController')
-const { categoryController } = require('../../controllers/quiz/category')
+const { categoryController, categoryListController, categoryUpdateController } = require('../../controllers/quiz/category')
 const { adminmiddleware } = require('../../middleware/admin')
 const { typeController } = require('../../controllers/quiz/queTypes')
 const { getTypeController } = require('../../models/quiz/questionTypes/getTypes')
-const { addNewQuestion } = require('../../controllers/quiz/questions')
+const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
 
 const router = express.Router()
 
 router.post('/signup', adminSignupController)
 router.post('/login', adminLoginController)
 router.post('/create-category',adminmiddleware, categoryController)
+router.get('/get-category',adminmiddleware, categoryListController)
+router.put('/update-category/:categoryId',adminmiddleware, categoryUpdateController)
 router.post('/create-type',adminmiddleware, typeController)
 router.get('/get-type',adminmiddleware, getTypeController)
 
 // quiz questions routes
 
 router.post('/add-question', adminmiddleware, addNewQuestion)
+router.get('/get-questions', adminmiddleware, getAllAdminquestions)
+router.get('/get-question/:questionId', adminmiddleware, getAdminQuestionById)
+router.put('/update-question/:questionId', adminmiddleware, updateAdminQuestionById)
+router.delete('/delete-question/:questionId', adminmiddleware, deleteQuestionbyAdmin)
 
 
 module.exports = router;
