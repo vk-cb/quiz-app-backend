@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.json())
 const adminRouter = require('./routes/admin/index')
 const superRouter = require('./routes/super-admin/index')
-
+const userRouter = require('./routes/users/index')
 
 
 
@@ -28,5 +28,6 @@ mongoose.connect(url)
 //main routers
 app.use('/v1/admin', adminRouter)
 app.use('/v1/super', superRouter)
+app.use('/v1/user', userRouter)
 
 module.exports = app;
