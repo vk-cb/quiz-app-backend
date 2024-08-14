@@ -2,7 +2,7 @@ const express = require('express')
 const { adminSignupController, adminLoginController} = require('../../controllers/admin/adminController')
 const { categoryController, categoryListController, categoryUpdateController, deactivateCategory } = require('../../controllers/quiz/category')
 const { adminmiddleware } = require('../../middleware/admin')
-const { typeController } = require('../../controllers/quiz/queTypes')
+const { typeController, deleteTypeContoller, getAdminQuestionType } = require('../../controllers/quiz/queTypes')
 const { getTypeController } = require('../../models/quiz/questionTypes/getTypes')
 const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
 
@@ -23,6 +23,8 @@ router.post('/delete-category/:categoryId', adminmiddleware, deactivateCategory)
 // type
 router.post('/create-type',adminmiddleware, typeController)
 router.get('/get-type',adminmiddleware, getTypeController)
+router.get('/get-que-type', adminmiddleware, getAdminQuestionType)
+router.post('/delete-type/:typeId',adminmiddleware, deleteTypeContoller)
 
 
 // quiz questions routes
