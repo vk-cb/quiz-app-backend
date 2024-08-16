@@ -6,8 +6,9 @@ const UserModal = new mongoose.Schema({
   email: {type: String,required: true,unique: true,},
   password: {type: String,required: true,},
   role: {type: String,default: "user",},
-  isActive : {type: Boolean, default: false},
+  isActive : {type: Boolean, default: true},
   lastLogin : {type: Date, default: Date.now},
+  purchasedQuiz: [],
   createdBy : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   updatedBy : {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });

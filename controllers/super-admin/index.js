@@ -13,7 +13,7 @@ exports.SuperAdminSignin = async(req, res)=>{
         }
         const payload = {name : superAdmin.name, email: superAdmin.email, role: superAdmin.role, isActive :superAdmin.isActive
         }
-    const token = jwt.sign(payload, secret, {expiresIn : "1h"})
+    const token = jwt.sign(payload, secret)
     return res.status(200).json({msg: "Super admin Login Successfully", data: payload, token})
     } catch (error) {
         console.error(error)
