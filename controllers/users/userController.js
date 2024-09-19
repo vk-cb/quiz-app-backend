@@ -1,4 +1,4 @@
-const users = require("../../models/auth/users");
+const User = require("../../models/auth/users");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secret = process.env.JWT_SECRET;
@@ -16,10 +16,10 @@ const secret = process.env.JWT_SECRET;
         return res.status(400).json({ msg: "Please enter password" });
     }
     try {
-        const findUser = await users.findOne({email})
+        const findUser = await User.findOne({email})
         if(findUser){return res.status(400).json({msg : "Email already exists please use another email"})}
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = new users( {
+        const newUser = new User( {
             firstName, lastName, email, password:hashedPassword
         })
         await newUser.save()
@@ -36,7 +36,7 @@ const secret = process.env.JWT_SECRET;
         return res.status(400).json({msg : "Please provide both email and password"})
     }
     try {
-        const findUser = await users.findOne({email})
+        const findUser = await User.findOne({email})
         if(!findUser){
             return res.status(404).json({msg : "User not found please try another email"})
         }
@@ -44,15 +44,21 @@ const secret = process.env.JWT_SECRET;
         if(!isMatch){
             return res.status(400).json({msg : "Invalid password"})
         }
+        findUser.lastLogin = Date.now();
+        await findUser.save();
+
         const payload = {
             id: findUser._id,
             firstName: findUser.firstName,
             lastName: findUser.lastName,
             email: findUser.email,
+            role: findUser.role,
+            purchasedQuiz: findUser.purchasedQuiz,
             isActive: findUser.isActive,
             lastLogin : findUser.lastLogin,
             createdBy: findUser.createdBy,
             updatedBy: findUser.updatedBy
+
         }
         const token = jwt.sign(payload, secret)
         return res.status(200).json({msg: "User Login Successfully", data: payload, token})
