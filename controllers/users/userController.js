@@ -1,6 +1,7 @@
 const User = require("../../models/auth/users");
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { status } = require("../../utils/statuscodes");
 const secret = process.env.JWT_SECRET;
  exports.userSignupController = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -57,11 +58,10 @@ const secret = process.env.JWT_SECRET;
             isActive: findUser.isActive,
             lastLogin : findUser.lastLogin,
             createdBy: findUser.createdBy,
-            updatedBy: findUser.updatedBy
-
+            updatedBy: findUser.updatedBy,
         }
         const token = jwt.sign(payload, secret)
-        return res.status(200).json({msg: "User Login Successfully", data: payload, token})
+        return res.status(status.success).json({msg: "User Login Successfully", data: payload, status: status.success, token})
     } catch (error) {
         console.error(error)
         return res.status(500).json({msg: "Server Error"})
