@@ -5,7 +5,7 @@ const { adminmiddleware } = require('../../middleware/admin')
 const { typeController, deleteTypeContoller, getAdminQuestionType } = require('../../controllers/quiz/queTypes')
 const { getTypeController } = require('../../models/quiz/questionTypes/getTypes')
 const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
-const { purchasedQuizController } = require('../../controllers/admin/purchasedcourse')
+const { soldQuizController } = require('../../controllers/admin/soldQuizes')
 
 const router = express.Router()
 
@@ -37,7 +37,7 @@ router.put('/update-question/:questionId', adminmiddleware, updateAdminQuestionB
 router.delete('/delete-question/:questionId', adminmiddleware, deleteQuestionbyAdmin)
 
 // quiz routes
-router.get('/pruchased-quiz', adminmiddleware, purchasedQuizController)
+router.get('/sold-quiz', adminmiddleware, soldQuizController)
 
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const purchasedQuizSchema = new mongoose.Schema({
+const soldQuizSchema = new mongoose.Schema({
     userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     adminId : {type:mongoose.Schema.Types.ObjectId, ref: "Admin"},
     userData: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -9,4 +9,4 @@ const purchasedQuizSchema = new mongoose.Schema({
     isActive : {type: Boolean, default: true}
 })
 
-module.exports = mongoose.model('PurchasedQuiz', purchasedQuizSchema, 'PurchasedQuiz')
+module.exports = mongoose.model('soldQuiz', soldQuizSchema, 'soldQuiz')

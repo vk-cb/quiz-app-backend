@@ -14,8 +14,8 @@ exports.adminSignupController = async (req, res)=>{
         const newAdmin = new Admin({firstName, lastName, email, password:bcryptPassword})
         await newAdmin.save()
         
-        const payload = { id: newUser._id, name: newUser.name, email: newUser.email, wallet: newUser.wallet };
-
+        const payload = { id: newAdmin._id, name: newAdmin.name, email: newAdmin.email , role : newAdmin.role, quizes : newAdmin.quizes, isActive:newAdmin.isActive,instructorDetail: newAdmin.instructorDetail };
+        
        return res.status(200).json({msg: "Admin created successfully", data : payload})
     } catch (error) {
        return res.status(500).json({msg : "Server Error", error})
@@ -24,8 +24,6 @@ exports.adminSignupController = async (req, res)=>{
 
 exports.adminLoginController = async (req, res)=>{
     try {
-        
-  
     const {email, password} = req.body;
     const findUser = await Admin.findOne({email})
     if(!findUser){

@@ -7,6 +7,16 @@ const AdminModal = new mongoose.Schema({
     password : {type: String, required: true},
     role : {type: String, default: 'admin'},
     quizes : {type : Array, default:[]},
+    instructorDetail : {
+        bio : {
+            about : {type:String},
+            shortDesTitle :{type:String},
+            shortDes : {type:String},
+            quizDescTitle: [{title:{type:String}, desc: {type:String}}],
+            quizDes : {type:String},
+        },
+        default : {}
+    },
     // isLocked : {type: Boolean, default: false},
     // lockUntil : {type: Date},
     // loginAttempts : {type: Number, default: 0},
