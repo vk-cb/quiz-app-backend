@@ -1,1 +1,3 @@
-apiDocs : https://documenter.getpostman.com/view/37143503/2sA3s3FqgH
+apiDocsOffice : https://documenter.getpostman.com/view/37143503/2sA3s3FqgH
+
+apiDocsHome : https://documenter.getpostman.com/view/31060373/2sAXqs838Z

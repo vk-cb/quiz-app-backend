@@ -6,7 +6,6 @@ const secret = process.env.JWT_SECRET
 
 exports.adminSignupController = async (req, res)=>{
     const {firstName, lastName, email, password} = req.body;
-    
     try {
         const findUser = await Admin.findOne({email})
         if(findUser) return res.status(400).json({msg: "Admin already exists with this email , please try another email."})

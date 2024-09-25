@@ -1,4 +1,4 @@
-const soldQuiz = require("../../../models/quiz/soldQuizes")
+const soldQuiz = require("../../../models/quiz/buyQuiz")
 
 exports.soldQuizController = async(req, resp)=>{
     const findAllQuiz = await soldQuiz.find({adminId : req.admin.id})
