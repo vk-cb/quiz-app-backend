@@ -6,13 +6,15 @@ const { typeController, deleteTypeContoller, getAdminQuestionType } = require('.
 const { getTypeController } = require('../../models/quiz/questionTypes/getTypes')
 const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
 const { soldQuizController } = require('../../controllers/admin/soldQuizes')
+const { schemaValidation } = require('../../utils/validation')
+const { registrationSchema, loginValidationSchema } = require('../../utils/constants')
 
 const router = express.Router()
 
 
 // auth
-router.post('/signup', adminSignupController)
-router.post('/login', adminLoginController)
+router.post('/signup',schemaValidation(registrationSchema), adminSignupController)
+router.post('/login',schemaValidation(loginValidationSchema), adminLoginController)
 
 
 // category 

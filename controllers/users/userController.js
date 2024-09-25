@@ -6,16 +6,16 @@ const secret = process.env.JWT_SECRET;
  exports.userSignupController = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
   
-    switch (true) {
-      case !firstName:
-        return res.status(400).json({ msg: "Please enter first name" });
-      case !lastName:
-        return res.status(400).json({ msg: "Please enter last name" });
-      case !email:
-        return res.status(400).json({ msg: "Please enter email" });
-      case !password:
-        return res.status(400).json({ msg: "Please enter password" });
-    }
+    // switch (true) {
+    //   case !firstName:
+    //     return res.status(400).json({ msg: "Please enter first name" });
+    //   case !lastName:
+    //     return res.status(400).json({ msg: "Please enter last name" });
+    //   case !email:
+    //     return res.status(400).json({ msg: "Please enter email" });
+    //   case !password:
+    //     return res.status(400).json({ msg: "Please enter password" });
+    // }
     try {
         const findUser = await User.findOne({email})
         if(findUser){return res.status(400).json({msg : "Email already exists please use another email"})}
@@ -33,9 +33,6 @@ const secret = process.env.JWT_SECRET;
 
   exports.userLoginController = async (req, res) =>{
     const {email, password} = req.body;
-    if(!email ||!password){
-        return res.status(400).json({msg : "Please provide both email and password"})
-    }
     try {
         const findUser = await User.findOne({email})
         if(!findUser){
