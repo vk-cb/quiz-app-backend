@@ -1,5 +1,6 @@
 exports.status = {
     success: 200,
+    created:201,
     unauthorized: 401,
     badRequest: 400,
     notFound: 404,

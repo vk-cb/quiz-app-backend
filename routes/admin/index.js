@@ -7,7 +7,9 @@ const { getTypeController } = require('../../models/quiz/questionTypes/getTypes'
 const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
 const { soldQuizController } = require('../../controllers/admin/soldQuizes')
 const { schemaValidation } = require('../../utils/validation')
-const { registrationSchema, loginValidationSchema } = require('../../utils/constants')
+const { registrationSchema, loginValidationSchema, questionsSchema, quizSchema } = require('../../utils/constants')
+const { freeQueAddController, getAdminFreeQue, updateFreeQuestion, deleteFreeQuestion, enableFreeQuestion } = require('../../controllers/quiz/freeQuestions/freeController')
+const { createQuiz, updateQuiz, deleteQuiz, getAllQuiz, getQuizById, retriveQuiz } = require('../../controllers/admin/quiz')
 
 const router = express.Router()
 
@@ -40,6 +42,21 @@ router.delete('/delete-question/:questionId', adminmiddleware, deleteQuestionbyA
 
 // quiz routes
 router.get('/sold-quiz', adminmiddleware, soldQuizController)
+
+// free quiz route
+router.post('/free-add-question',schemaValidation(questionsSchema), adminmiddleware,freeQueAddController)
+router.get('/free-get-question', adminmiddleware,getAdminFreeQue)
+router.put('/free-update-question',schemaValidation(questionsSchema), adminmiddleware,updateFreeQuestion)
+router.put('/free-delete-question/:questionId', adminmiddleware,deleteFreeQuestion)
+router.put('/free-enable-question/:questionId', adminmiddleware,enableFreeQuestion)
+
+//quiz-crud routes
+router.post('/quiz-create',schemaValidation(quizSchema), adminmiddleware, createQuiz)
+router.put('/quiz-update/:quizId', adminmiddleware, updateQuiz)
+router.put('/delete-quiz/:quizId', adminmiddleware, deleteQuiz)
+router.put('/retrive-quiz/:quizId', adminmiddleware, retriveQuiz)
+router.get('/get-all-quiz', adminmiddleware, getAllQuiz)
+router.get('/get-quiz/:quizId', adminmiddleware, getQuizById)
 
 
 module.exports = router;
