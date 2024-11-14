@@ -19,10 +19,10 @@ exports.getAllAdminquestions = async(req, res)=>{
     try {
         const {filter} = req.body;
         if(!filter){
-            const Allquestions = await questions.find({createdBy: req.admin.id}).sort({createdAt: -1})
+            const Allquestions = await questions.find({createdBy: req.admin.id, isActive: true}).sort({createdAt: -1})
             return res.status(200).json({msg: "All questions fetched successfully", Allquestions})
         }
-        const Allquestions = await questions.find({createdBy: req.admin.id, type: filter}).sort({createdAt: -1})
+        const Allquestions = await questions.find({createdBy: req.admin.id, type: filter, isActive: true}).sort({createdAt: -1})
         return res.status(200).json({msg: "Filtered questions fetched successfully", Allquestions})
        
     } catch (error) {
