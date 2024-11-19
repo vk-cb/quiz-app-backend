@@ -52,7 +52,7 @@ exports.categoryListController = async (req, resp) => {
       })
     );
 
-    return resp.json({ msg: "All Categories", data: categoriesWithQuestions });
+    return resp.json({ msg: "All Categories", data: [categoriesWithQuestions] });
   } catch (error) {
     console.log(error);
     return resp.status(500).json({ msg: "Server Error", error });
