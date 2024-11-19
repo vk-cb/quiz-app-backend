@@ -1,4 +1,5 @@
 const questionTypes = require("../../../models/quiz/questionTypes");
+const Question = require('../../../models/quiz/questions');
 
 exports.typeController = async(req, res)=>{
     const {title} = req.body;
@@ -21,22 +22,36 @@ exports.typeController = async(req, res)=>{
 }
 }
 
+
 exports.getAdminQuestionType = async (req, res) => {
-    const { isActive} = req.body;
-    let findTypes;
-  
-    if (!isActive  || isActive === null) {
-      findTypes = await questionTypes.findOne({ createdBy: req.admin.id, isActive: true });
-    } else if(isActive=== "not-active") {
-      findTypes = await questionTypes.findOne({  createdBy: req.admin.id, isActive:false});
+  const { isActive } = req.body;
+  let findType;
+
+  try {
+    if (!isActive || isActive === null) {
+      findType = await questionTypes.findOne({ createdBy: req.admin.id, isActive: true });
+    } else if (isActive === "not-active") {
+      findType = await questionTypes.findOne({ createdBy: req.admin.id, isActive: false });
     }
-  
-    if (!findTypes) {
+
+    if (!findType) {
       return res.status(404).json({ msg: "Question type not found" });
     }
-  
-    return res.status(200).json({msg: "Question types fetched successfully",data:findTypes});
-  };
+
+    const noOfQue = await Question.countDocuments({ questionTypeId: findType._id });
+
+    const responseData = {
+      ...findType.toObject(),
+      noOfQue,                
+    };
+
+    return res.status(200).json({ msg: "Question types fetched successfully", data: responseData });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Server Error", error });
+  }
+};
+
 
 exports.deleteTypeContoller  = async(req, res)=>{
     const {typeId} =  req.params;

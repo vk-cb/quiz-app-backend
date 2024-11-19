@@ -1,6 +1,6 @@
 const category = require("../../../models/quiz/category");
 const { exists } = require("../../../models/quiz/questions");
-
+const Question = require('../../../models/quiz/questions')
 exports.categoryController = async (req, resp) => {
   const { title } = req.body;
   if (!title) {
@@ -35,18 +35,30 @@ exports.categoryController = async (req, resp) => {
     return resp.status(500).json({ msg: "Server Error", error });
   }
 };
-
 exports.categoryListController = async (req, resp) => {
   try {
+
     const categories = await category
       .find({ createdBy: req.admin.id, isActive: true })
       .sort({ updatedAt: -1 });
-    return resp.json({ msg: "All Categories", data: categories });
+    const categoriesWithQuestions = await Promise.all(
+      categories.map(async (cat) => {
+
+        const noOfQue = await Question.countDocuments({ categoryId: cat._id });
+        return {
+          ...cat.toObject(), 
+          noOfQue,           
+        };
+      })
+    );
+
+    return resp.json({ msg: "All Categories", data: categoriesWithQuestions });
   } catch (error) {
     console.log(error);
     return resp.status(500).json({ msg: "Server Error", error });
   }
 };
+
 
 exports.categoryUpdateController = async (req, resp) => {
   const { title } = req.body;

@@ -31,7 +31,6 @@ router.get('/get-type',adminmiddleware, getTypeController)
 router.get('/get-que-type', adminmiddleware, getAdminQuestionType)
 router.post('/delete-type/:typeId',adminmiddleware, deleteTypeContoller)
 
-
 // quiz questions routes
 
 router.post('/add-question', adminmiddleware, addNewQuestion)
