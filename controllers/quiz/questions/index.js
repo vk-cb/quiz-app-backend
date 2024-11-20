@@ -6,7 +6,7 @@ exports.addNewQuestion = async(req, res)=>{
         return res.status(400).json({msg: "Please provide all required fields"})
     }
     try {
-        const newQuestion = new questions({title, type,typeTitle,category,categoryTitle, options, answer, createdBy: req.admin.id, updatedBy: req.admin.id})
+        const newQuestion = new questions({title, type,category, options, answer, createdBy: req.admin.id, updatedBy: req.admin.id})
         await newQuestion.save()
         return res.status(201).json({msg: "Question created successfully", question : newQuestion})
     } catch (error) {
