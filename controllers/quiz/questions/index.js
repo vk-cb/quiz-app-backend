@@ -1,8 +1,8 @@
 const questions = require("../../../models/quiz/questions");
 
 exports.addNewQuestion = async(req, res)=>{
-    const {title, type, typeTitle,category,categoryTitle,options, answer} = req.body;
-    if(!title ||!type || !typeTitle ||!options ||!answer){
+    const {title, type,category,options, answer} = req.body;
+    if(!title ||!type ||!options ||!answer){
         return res.status(400).json({msg: "Please provide all required fields"})
     }
     try {

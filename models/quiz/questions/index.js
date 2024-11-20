@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const QuestionSchema = new mongoose.Schema({
     title : {type: String, required : true},
     type : {type: String},
-    category : {type: String, ref: 'Category'},
+    category : {type: String},
     options : [{type: String}],
     answer : [{type: String}],
     admin : {type: mongoose.Schema.Types.ObjectId, ref: 'Admin'},
