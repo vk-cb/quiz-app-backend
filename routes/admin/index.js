@@ -4,7 +4,7 @@ const { categoryController, categoryListController, categoryUpdateController, de
 const { adminmiddleware } = require('../../middleware/admin')
 const { typeController, deleteTypeContoller, getAdminQuestionType } = require('../../controllers/quiz/queTypes')
 const { getTypeController } = require('../../models/quiz/questionTypes/getTypes')
-const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin } = require('../../controllers/quiz/questions')
+const { addNewQuestion, getAllAdminquestions, getAdminQuestionById, updateAdminQuestionById, deleteQuestionbyAdmin, transformData } = require('../../controllers/quiz/questions')
 const { soldQuizController } = require('../../controllers/admin/soldQuizes')
 const { schemaValidation } = require('../../utils/validation')
 const { registrationSchema, loginValidationSchema, questionsSchema, quizSchema } = require('../../utils/constants')
@@ -38,6 +38,9 @@ router.get('/get-questions', adminmiddleware, getAllAdminquestions)
 router.get('/get-question/:questionId', adminmiddleware, getAdminQuestionById)
 router.put('/update-question/:questionId', adminmiddleware, updateAdminQuestionById)
 router.delete('/delete-question/:questionId', adminmiddleware, deleteQuestionbyAdmin)
+
+//clean data 
+router.put('/transform-data',adminmiddleware,transformData)
 
 // quiz routes
 router.get('/sold-quiz', adminmiddleware, soldQuizController)
