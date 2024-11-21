@@ -30,6 +30,66 @@ exports.getAllAdminquestions = async(req, res)=>{
         return res.status(500).json({msg: "Server Error"})
     }
 }
+exports.transformData = async (req, res) => {
+    try {
+      // Fetch all questions for the admin
+      const allQuestions = await questions.find({ createdBy: req.admin.id });
+  
+      // Function to clean up and convert a string to a proper array
+      const cleanArrayField = (field) => {
+        // Remove brackets and extra quotes, then split by comma
+        if (typeof field === 'string') {
+          return field
+            .replace(/[\[\]']+/g, '') // Remove brackets and quotes
+            .split(',')
+            .map(item => item.trim()); // Trim whitespace from each item
+        }
+        // If it's already an array, clean each item
+        if (Array.isArray(field)) {
+          return field.map(item => item.replace(/[\[\]']+/g, '').trim());
+        }
+        return field; // Return as-is if neither string nor array
+      };
+  
+      // Iterate over each question and clean up options and answers
+      for (const question of allQuestions) {
+        const cleanedOptions = cleanArrayField(question.options);
+        const cleanedAnswer = cleanArrayField(question.answer);
+  
+        // Update the database with cleaned data
+        await questions.updateOne(
+          { _id: question._id },
+          {
+            $set: {
+              options: cleanedOptions,
+              answer: cleanedAnswer,
+            },
+          }
+        );
+      }
+  
+      // Fetch the cleaned and transformed data for the response
+      const transformedData = allQuestions.map((question) => ({
+        id: question._id,
+        title: question.title,
+        type: question.type,
+        typeTitle: question.typeTitle,
+        category: question.category,
+        categoryTitle: question.categoryTitle,
+        options: cleanArrayField(question.options),
+        answer: cleanArrayField(question.answer),
+        createdBy: req.admin.id,
+      }));
+  
+      // Send the transformed data as a response
+      res.json(transformedData);
+
+    } catch (error) {
+      console.error('Error transforming data:', error);
+      res.status(500).json({ error: 'Failed to transform data' });
+    }
+  };
+  
 
 exports.getAdminQuestionById = async(req, res)=>{
     const {questionId} = req.params;
